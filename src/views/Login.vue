@@ -50,16 +50,15 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, formData);
 
 const handleSubmit = async () => {
-    const result = await v$.value.$validate();
-    if( result ) {
-       authStore.loginUser(formData.email, formData.password)
+  const result = await v$.value.$validate();
+  if (result) {
+    await authStore.loginUser(formData.email, formData.password);
+    // Navigate after successful login
+    if (authStore.user) {
+      router.push('/');
     }
-
-    setTimeout(() => {
-        error.value = "";
-        loading.value = ""
-    }, 2000);
-}
+  }
+};
 </script>
 <template>
     <div class="grid-center">
@@ -91,14 +90,14 @@ const handleSubmit = async () => {
                     <p class="error">{{ error }}</p>
                 </div>
 
-                <div class="pb-2">
-                    <p class="text-black">Please <span class="text-green-500 hover:text-green-600 hover:font-bold cursor-pointer"><router-link to="/register">Register</router-link></span> with your Account first </p>
-                </div>
-
+                
                 <div>
                     <button type="submit" class="form-btn">
                         {{ loading ? "Signing In..." : "Sign In"}}
                     </button>
+                </div>
+                <div class="py-5">
+                    <p class="text-black">Please <span class="text-green-500 hover:text-green-600 hover:font-bold cursor-pointer"><router-link to="/register">Register</router-link></span> with your Account for the first time </p>
                 </div>
             </form>
         </div>

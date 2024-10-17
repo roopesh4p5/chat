@@ -100,12 +100,16 @@ const filteredUsers = computed(() => {
 
 
 const handleLogOut = async () => {
+
     await updateDoc(doc(db, "users", currentUser), {
         online: false,
         createdAt: Timestamp.fromDate(new Date()),
     });
     authStore.logOut();
-    router.push("/login");
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+
 }
 </script>
 <template>

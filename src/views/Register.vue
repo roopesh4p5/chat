@@ -60,16 +60,15 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, formData);
 
 const handleSubmit = async () => {
-    const result = await v$.value.$validate();
-    if( result ) {
-        authStore.registerUser(formData.username, formData.email, formData.password)
-    };
-
-    setTimeout(() => {
-        error.value = "";
-        loading.value = ""
-    }, 2000)
-}
+  const result = await v$.value.$validate();
+  if (result) {
+    await authStore.registerUser(formData.username, formData.email, formData.password);
+    // Navigate after successful registration
+    if (authStore.user) {
+      router.push('/profile');
+    }
+  }
+};
 </script>
 <template>
     <div class="grid-center">
@@ -103,14 +102,14 @@ const handleSubmit = async () => {
                     <p class="error" v-if="v$.confirmPassword.$error">{{v$.confirmPassword.$errors[0].$message}}</p>
                 </div>
 
-                <div class="pb-2">
-                    <p class="text-black">Already Registered? <span class="text-green-500 hover:text-green-600 hover:font-bold cursor-pointer"><router-link to="/">Login</router-link></span> </p>
-                </div>
-
+                
                 <div>
                     <button type="submit" class="form-btn">
                         {{ loading ? "Signing Up..." : "Sign Up"}}
                     </button>
+                </div>
+                <div class="py-5">
+                    <p class="text-black">Already Registered? <span class="text-green-500 hover:text-green-600 hover:font-bold cursor-pointer"><router-link to="/">Login</router-link></span> </p>
                 </div>
             </form>
         </div>

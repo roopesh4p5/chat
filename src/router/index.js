@@ -60,15 +60,18 @@ const currentUser = () => {
     })
   };
   
-  router.beforeEach( async (to,from,next) => {
-    if(to.matched.some((record) => record.meta.auth)) {
-      if(await currentUser()) {
+  router.beforeEach(async (to, from, next) => {
+    const user = await currentUser();
+    if (to.matched.some(record => record.meta.auth)) {
+      if (user) {
         next();
       } else {
-        next("/login");
+        next('/login');  // Redirect unauthenticated users to login
       }
+    } else if ((to.path === '/login' || to.path === '/register') && user) {
+      next('/chat');  // Redirect authenticated users away from login/register
     } else {
-      next();
+      next();  // Proceed to the route
     }
   });
 export default router;

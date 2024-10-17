@@ -89,8 +89,10 @@ const handleSubmit = async () => {
             error.value = ""
         }, 2000)
     };
+    setTimeout(() => {
 
-    router.push("/chat")
+        router.push("/")
+    }, 1000);
 }
 </script>
 <template>

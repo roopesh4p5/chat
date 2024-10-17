@@ -50,8 +50,8 @@ stopRunning();
         <div v-if="props.avatar" class="relative">
             <img v-if="props.avatar" class="h-8 w-8 rounded-full m-2 lg:m-0" :src="props.avatar"
                 :alt="props.username" />
-            <span v-if="props.active" class="bottom-0 left-8 absolute  w-3.5 h-3.5 bg-green-400 rounded-full"></span>
-            <span v-else class="bottom-0 left-8 absolute w-3.5 h-3.5 bg-red-400 rounded-full"></span>
+            <span v-if="props.active" class="bottom-0 left-6  absolute  w-2.5 h-2.5 bg-green-400 rounded-full"></span>
+            <span v-else class="bottom-0 left-6 absolute w-2.5 h-2.5 bg-red-400 rounded-full"></span>
         </div>
 
         <div v-else>
