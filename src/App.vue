@@ -6,7 +6,6 @@ import {
 } from 'vue';
 
 import Navbar from './components/Navbar.vue';
-import UpdatePrompt from './components/UpdatePrompt.vue';
 import { useAuthStore } from './store/authStore';
 
 const authStore = useAuthStore();
