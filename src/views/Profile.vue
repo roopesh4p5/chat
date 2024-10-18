@@ -96,6 +96,8 @@ const handleSubmit = async () => {
 }
 </script>
 <template>
+        <Navbar v-if="!token"/>
+
     <div>
         <div class="grid-center">
             <div v-for="currentUser in user" class="max-w-sm w-72 mt-6 md:w-80 md:mt-10">

@@ -44,46 +44,58 @@ const stopRunning = watchEffect(() => {
 });
 stopRunning();
 </script>
+
 <template>
     <div @click="$emit('changeChat', props.id, props.username, props.avatar, props.contact)"
-        class="space-x-3 flex-center  shadow  m-1 max-h-16 cursor-pointer  hover:bg-gray-300 md:px-2 md:py-1">
-        <div v-if="props.avatar" class="relative">
-            <img v-if="props.avatar" class="h-8 w-8 rounded-full m-2 lg:m-0" :src="props.avatar"
-                :alt="props.username" />
-            <span v-if="props.active" class="bottom-0 left-6  absolute  w-2.5 h-2.5 bg-green-400 rounded-full"></span>
-            <span v-else class="bottom-0 left-6 absolute w-2.5 h-2.5 bg-red-400 rounded-full"></span>
+        class="flex items-center p-3 space-x-3 hover:bg-gray-100 cursor-pointer border-b min-h-[4rem]">
+        <!-- Avatar Section -->
+        <div class="relative flex-shrink-0">
+            <img v-if="props.avatar" 
+                class="h-12 w-12 rounded-full object-cover" 
+                :src="props.avatar"
+                :alt="props.username" 
+            />
+            <img v-else 
+                class="h-12 w-12 rounded-full object-cover" 
+                :src="Placeholder" 
+                :alt="props.username" 
+            />
+            <span 
+                class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white"
+                :class="props.active ? 'bg-green-400' : 'bg-red-400'"
+            ></span>
         </div>
 
-        <div v-else>
-            <img class="h-12 w-12 rounded-full m-2 lg:m-0" :src="Placeholder" :alt="props.username" />
-        </div>
-
-        <div class="ml-4 flex-1 py-4 lg:block">
-            <div class="flex items-bottom justify-between">
-                <p class="hidden md:block text-black">
+        <!-- Content Section -->
+        <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-start">
+                <p class="text-sm font-medium text-gray-900 truncate">
                     {{ capitalize(props.username) }}
                 </p>
-                <p class="hidden text-xs text-grey-darkest lg:block">
-                    <span v-if="lastMessage?.createdAt" class="text-gray-300">
-                        <timeago :datetime="lastMessage.createdAt?.toDate()" :auto-update="60"></timeago>
-                    </span>
-                </p>
+                <span v-if="lastMessage?.createdAt" class="text-xs text-gray-500">
+                    <timeago :datetime="lastMessage.createdAt?.toDate()" :auto-update="60"></timeago>
+                </span>
             </div>
-            <div class="hidden mt-1 md:block">
-                <div v-if="lastMessage?.text" class="flex-between">
-                    <div class="flex-center space-x-2">
-                        <p v-if="lastMessage.from === currentUserId" class="text-gray-200">Me: </p>
-                        <p class="text-sm text-gray-300"> {{ lastMessage?.text }}</p>
-                    </div>
-                    <p v-if="lastMessage?.unread && lastMessage?.from !== currentUserId">
-                    <p class="w-4 h-4 pt-.5 text-black bg-green-500 rounded-full text-center text-xs">1</p>
-                    </p>
 
-                    <p v-else>
-                        <span>
-                            <p><i class="fa fa-check text-blue-500"></i></p>
+            <div class="mt-1">
+                <div v-if="lastMessage?.text" class="flex justify-between items-center">
+                    <div class="flex items-center space-x-1 max-w-[80%]">
+                        <span v-if="lastMessage.from === currentUserId" 
+                            class="text-xs text-gray-500">Me:</span>
+                        <p class="text-xs text-gray-500 truncate">
+                            {{ lastMessage?.text }}
+                        </p>
+                    </div>
+                    
+                    <div class="flex-shrink-0">
+                        <div v-if="lastMessage?.unread && lastMessage?.from !== currentUserId"
+                            class="w-5 h-5 flex items-center justify-center bg-green-500 rounded-full">
+                            <span class="text-xs text-white">1</span>
+                        </div>
+                        <span v-else class="text-blue-500 text-xs">
+                            <i class="fa fa-check"></i>
                         </span>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

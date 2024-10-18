@@ -17,11 +17,12 @@ import {
 } from '@vuelidate/validators';
 
 import Logo from '../assets/Logo.webp';
+import Navbar from '../components/Navbar.vue';
 import { useAuthStore } from '../store/authStore';
 
 const formData = reactive({
     email: "",
-    username: "",
+    // username: "",
     password: ""
 });
 const router = useRouter();
@@ -42,7 +43,7 @@ watchEffect(() => {
 const rules = computed(() => {
     return {
         email: { required: helpers.withMessage("Email is required", required), email },
-        username: { required: helpers.withMessage("Username is required", required)},
+        // username: { required: helpers.withMessage("Username is required", required)},
         password: { required: helpers.withMessage("Password is required", required), minLength: minLength(8) },
     }
 });
@@ -61,18 +62,20 @@ const handleSubmit = async () => {
 };
 </script>
 <template>
-    <div class="grid-center">
-        <div class="max-w-sm w-72 mt-6 md:w-80 md:mt-10">
+    <Navbar v-if="!token"/>
+
+    <div class="grid-center h-[75vh]">
+        <div class="max-w-lg w-80 mt-4 md:w-70 md:mt-6">
             <form @submit.prevent="handleSubmit" class="w-full shadow-md rounded-md py-4 px-6 ">
                 <div class="flex items-center justify-center m-4">
                     <img :src="Logo" alt="Logo" class="w-10 h-10"><h2 class="text-xl pl-3 ">Pace Chats</h2>
                 </div>
 
-                <div class="pb-3 sm:pb-4">
+                <!-- <div class="pb-3 sm:pb-4">
                     <label for="username" class=" w-full text-black">Username</label>
                     <input type="text" placeholder="Username" class="form-input text-black" v-model="formData.username"/>
                     <p class="error" v-if="v$.username.$error">{{v$.username.$errors[0].$message}}</p>
-                </div>
+                </div> -->
 
                 <div class="pb-3 sm:pb-4">
                     <label for="email" class=" w-full text-black">Email</label>

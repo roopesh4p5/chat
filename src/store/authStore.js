@@ -57,7 +57,8 @@ export const useAuthStore = defineStore({
 
         this.user = response.user;
         this.registerLoading = false;
-        
+        sessionStorage.setItem('userEmail', response.user.email);
+
         // Use try-catch for navigation
         try {
           await router.push('/chat');
